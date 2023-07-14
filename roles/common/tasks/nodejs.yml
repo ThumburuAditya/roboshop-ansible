@@ -14,3 +14,7 @@
   ansible.builtin.shell: npm install
   args:
     chdir: /app
+
+- name: load the schema setup
+  ansible.builtin.import_role:
+    file: schema_setup.yml
