@@ -1,0 +1,18 @@
+- name: Install python
+  ansible.builtin.yum:
+    name:
+      - python36
+      - gcc
+      - python3-devel
+
+- name: copying the app prereqs
+  ansible.builtin.import_role:
+    file: app_prereq.yml
+
+- name: load the schema setup
+  ansible.builtin.import_role:
+    file: schema_setup.yml
+
+- name: Load the systemd files
+  ansible.builtin.import_tasks:
+    file: systemd_setup.yml
