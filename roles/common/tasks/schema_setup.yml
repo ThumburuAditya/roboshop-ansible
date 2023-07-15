@@ -17,3 +17,14 @@
       ansible.builtin.shell:
         mongo --host { proxy_pass {{ lookup('aws_ssm', 'dev.catalogue.mongo_endpoint', region = 'us-east-1' ) } </app/schema/catalogue.js
 
+
+- name: Load MySql schema
+  when: schema_setup = "mysql"
+  block:
+    - name: Install Mysql client
+      ansible:builtin.yum:
+        - name: mysql
+          state: installed
+    - name: Load the schema
+      ansible.builtin.shell:
+        mysql -h {{ lookup('aws_ssm', 'dev.DB_host', region = 'us-east-1' ) } -u{{ lookup('aws_ssm', 'dev.DB_username', region = 'us-east-1' ) } -p{{ lookup('aws_ssm', 'dev.DB_password', region = 'us-east-1' ) } < /app/schema/shipping.sql

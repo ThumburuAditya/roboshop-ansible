@@ -8,7 +8,7 @@
     file: app_prereq.yml
 
 - name: download maven dependencies
-  ansible.builtin.shell: mvn clean package; mv target/ ${component}-1.0.jar ${component}
+  ansible.builtin.shell: mvn clean package; mv target/ {{component}}-1.0.jar {{component}}
   args:
     chdir: /app
 
