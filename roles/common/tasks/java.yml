@@ -1,17 +1,14 @@
-- name: Configuring NodeJS repos
-  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
-
-- name: Install nodejs
+- name: Install Maven
   ansible.builtin.yum:
-    name: nodejs
-    state: installed
+    name: maven
+    status: installed
 
 - name: copying the app prereqs
   ansible.builtin.import_role:
     file: app_prereq.yml
 
-- name: Install dependencies
-  ansible.builtin.shell: npm install
+- name: download maven dependencies
+  ansible.builtin.shell: mvn clean package; mv target/ ${component}-1.0.jar ${component}
   args:
     chdir: /app
 
