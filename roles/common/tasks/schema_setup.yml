@@ -3,7 +3,7 @@
   block:
     - name: Copy the mongo repo file
       ansible.builtin.copy:
-        src: /mongo.repo
+        src: mongo.repo
         dest: /etc/yum.repos.d/mongo.repo
 
 
