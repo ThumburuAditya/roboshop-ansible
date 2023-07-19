@@ -3,7 +3,7 @@
   block:
     - name: Copy the mongo repo file
       ansible.builtin.copy:
-        src: mongo.repo
+        src: /mongo.repo
         dest: /etc/yum.repos.d/mongo.repo
 
 
@@ -15,7 +15,7 @@
 
     - name: Load the schema
       ansible.builtin.shell:
-        mongo --host { proxy_pass {{ lookup('aws_ssm', '{{ env }}.{{ component }}.mongo_endpoint', region = 'us-east-1' ) }} </app/schema/catalogue.js
+        mongo --host {{ lookup('aws_ssm', '{{ env }}.{{ component }}.mongo_endpoint', region = 'us-east-1' ) }} </app/schema/catalogue.js
 
 
 - name: Load MySql schema
