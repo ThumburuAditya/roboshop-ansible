@@ -1,5 +1,4 @@
 - name: run the mongodb schema
-  ansible.builtin.block:
   when: schema_setup = "mongo"
   block:
     - name: Copy the mongo repo file
@@ -20,7 +19,6 @@
 
 
 - name: Load MySql schema
-  ansible.built.block:
   when: schema_setup = "mysql"
   block:
     - name: Install Mysql client
