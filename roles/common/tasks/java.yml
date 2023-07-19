@@ -1,7 +1,7 @@
 - name: Install Maven
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: maven
-    status: installed
+    state: present
 
 - name: copying the app prereqs
   ansible.builtin.import_tasks:
