@@ -7,7 +7,7 @@
     state: installed
 
 - name: copying the app prereqs
-  ansible.builtin.import_role:
+  ansible.builtin.import_tasks:
     file: app_prereq.yml
 
 - name: Install dependencies
@@ -16,7 +16,7 @@
     chdir: /app
 
 - name: load the schema setup
-  ansible.builtin.import_role:
+  ansible.builtin.import_tasks:
     file: schema_setup.yml
 
 - name: Load the systemd files
