@@ -4,10 +4,17 @@
       - python36
       - gcc
       - python3-devel
+    state: installed
 
 - name: copying the app prereqs
   ansible.builtin.import_tasks:
     file: app_prereq.yml
+
+- name: Install python dependencies
+  ansible.builtin.shell:
+    pip3.6 install -r requirements.txt
+  args:
+    chdir: /app
 
 - name: load the schema setup
   ansible.builtin.import_tasks:
