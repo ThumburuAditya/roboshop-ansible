@@ -4,6 +4,8 @@ filebeat.inputs:
     enabled: true
     paths:
       - {{ log_file }}
+    fields:
+      component: {{ component }}
 
 output.logstash:
   hosts: ["54.87.128.218:5044"]
