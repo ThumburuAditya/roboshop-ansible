@@ -30,5 +30,10 @@
     state: restarted
     enabled: true
 
+- name: Install filebeat
+  ansible.builtin.import_role:
+    name: elk
+    tasks_from: filebeat
+
 
 
