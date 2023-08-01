@@ -8,3 +8,13 @@
     name: filebeat
     state: installed
 
+- name: Copy filebeat
+  ansible.builtin.template:
+    src: filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+
+- name: Restart ansible
+  ansible.builtin.systemd:
+    name: filebeat
+    state: restarted
+    enabled: true
