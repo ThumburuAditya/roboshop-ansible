@@ -25,13 +25,50 @@ groups:
         annotations:
           summary: serverdown
 
-      { % for component in components %}
-
       - alert: servicedown
-        expr: node_systemd_unit_state {component="{{ component.name }}", exported_name="{{ component.service_name}}.service", state="active"} < 1
+        expr: node_systemd_unit_state {component="cart", exported_name="cart.service", state="active"} < 1
         for: 1m
         labels:
           severity: page
         annotations:
-          summary: {{ component.name }} Component - servicedown
-      { % endfor % }
+          summary: cart component - servicedown
+
+      - alert: servicedown
+        expr: node_systemd_unit_state {component="user", exported_name="user.service", state="active"} < 1
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: user component - servicedown
+
+      - alert: servicedown
+        expr: node_systemd_unit_state {component="shipping", exported_name="shipping.service", state="active"} < 1
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: shipping component - servicedown
+
+      - alert: servicedown
+        expr: node_systemd_unit_state {component="payment", exported_name="[payment.service", state="active"} < 1
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: payment component - servicedown
+
+      - alert: servicedown
+        expr: node_systemd_unit_state {component="catalogue", exported_name="catalogue.service", state="active"} < 1
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: catalogue component - servicedown
+
+      - alert: servicedown
+        expr: node_systemd_unit_state {component="frontend", exported_name="frontend.service", state="active"} < 1
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: frontend component - servicedown
