@@ -8,9 +8,9 @@ filebeat.inputs:
       component: {{ component }}
 
 output.logstash:
-  hosts: ["44.204.63.155:5044"]
+  hosts: ["172.31.21.159:5044"]
 
-#Default
+## Defualt
 filebeat.config.modules:
   path: ${path.config}/modules.d/*.yml
   reload.enabled: false
@@ -19,6 +19,4 @@ setup.template.settings:
 
 processors:
   - drop_fields:
-      fields: ["agent.ephemeral_id","agent.hostname",
-               "agent.id","agent.type","agent.version","ecs.version", "input.type","log.offset", "version"]
-
+      fields: ["agent.ephemeral_id", "agent.hostname", "agent.id", "agent.type", "agent.version", "ecs.version", "input.type", "log.offset", "version", "agent.name"]

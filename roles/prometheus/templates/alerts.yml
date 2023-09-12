@@ -1,8 +1,8 @@
 groups:
-  - name: ec2-node
+  - name: ec2-nodes
     rules:
       - alert: HighCPUUtilization
-        expr: 100 - (avg by (component, env, instance, job, name) (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100)) > 80
+        expr: 100 - (avg by (component, env, instance, job, name) (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100)) > 50
         for: 1m
         labels:
           severity: page
@@ -10,65 +10,27 @@ groups:
           summary: High CPU Usage
 
       - alert: HighMemoryUtilization
-        expr: 100 - (100 * (node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes) > 50
+        expr: 100 - (100 * ((node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes )  / node_memory_MemTotal_bytes)) > 50
         for: 1m
         labels:
           severity: page
         annotations:
-          summary: High memory usage
+          summary: High Memoory Usage
 
-      - alert: serverdown
+      - alert: ServerDown
         expr: up < 1
         for: 1m
         labels:
           severity: page
         annotations:
-          summary: serverdown
+          summary: Server Down
+    {% for component in components %}
 
-      - alert: servicedown
-        expr: node_systemd_unit_state {component="cart", exported_name="cart.service", state="active"} < 1
-        for: 1m
-        labels:
-          severity: page
-        annotations:
-          summary: cart component - servicedown
-
-      - alert: servicedown
-        expr: node_systemd_unit_state {component="user", exported_name="user.service", state="active"} < 1
-        for: 1m
-        labels:
-          severity: page
-        annotations:
-          summary: user component - servicedown
-
-      - alert: servicedown
-        expr: node_systemd_unit_state {component="shipping", exported_name="shipping.service", state="active"} < 1
-        for: 1m
-        labels:
-          severity: page
-        annotations:
-          summary: shipping component - servicedown
-
-      - alert: servicedown
-        expr: node_systemd_unit_state {component="payment", exported_name="[payment.service", state="active"} < 1
-        for: 1m
-        labels:
-          severity: page
-        annotations:
-          summary: payment component - servicedown
-
-      - alert: servicedown
-        expr: node_systemd_unit_state {component="catalogue", exported_name="catalogue.service", state="active"} < 1
-        for: 1m
-        labels:
-          severity: page
-        annotations:
-          summary: catalogue component - servicedown
-
-      - alert: servicedown
-        expr: node_systemd_unit_state {component="frontend", exported_name="nginx.service", state="active"} < 1
-        for: 1m
-        labels:
-          severity: page
-        annotations:
-          summary: frontend component - servicedown
+    - alert: ServiceDown-{{component.name}}
+      expr: node_systemd_unit_state{component="{{ component.name }}", exported_name="{{ component.service_name }}.service",state="active"} < 1
+      for: 1m
+      labels:
+        severity: page
+      annotations:
+        summary: {{ component.name }} Component - Service Down
+    {%- endfor %}
